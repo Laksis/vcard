@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vCard QR Code Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        input, button { margin: 5px; padding: 10px; width: 90%; max-width: 300px; }
+        #qrcode { margin-top: 20px; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+    <h2>vCard QR Code Generator</h2>
+
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="company" placeholder="Company">
+    <input type="text" id="website" placeholder="Website">
+    <input type="text" id="address" placeholder="Address">
+
+    <button onclick="generateQR()">Generate QR Code</button>
+
+    <div id="qrcode"></div>
+
+    <script>
+        function generateQR() {
+            let name = document.getElementById("name").value;
+            let phone = document.getElementById("phone").value;
+            let email = document.getElementById("email").value;
+            let company = document.getElementById("company").value;
+            let website = document.getElementById("website").value;
+            let address = document.getElementById("address").value;
+
+            // Validate that at least Name and Phone are filled
+            if (!name || !phone) {
+                alert("Please enter at least Name and Phone Number.");
+                return;
+            }
+
+            // vCard format text
+            let vcardData = `BEGIN:VCARD
+VERSION:3.0
+FN:${name}
+ORG:${company}
+TEL:${phone}
+EMAIL:${email}
+URL:${website}
+ADR:${address}
+END:VCARD`;
+
+            // Clear previous QR Code
+            document.getElementById("qrcode").innerHTML = "";
+
+            // Generate the QR Code
+            new QRCode(document.getElementById("qrcode"), {
+                text: vcardData,
+                width: 200,
+                height: 200
+            });
+        }
+    </script>
+
+</body>
+</html>
